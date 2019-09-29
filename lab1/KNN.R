@@ -2,13 +2,13 @@ euclidDist <- function(u, v) {
   sqrt(sum((u - v)^2))
 }
 
-sortObjectsByDist <- function(xl, z) {
+sortObjectsByDist <- function(xl, u) {
   l <- dim(xl)[1]
   n <- dim(xl)[2] - 1
   # формируем матрицу расстояний состоящую из индекса и расстояния евклида из выборки для некоторой точки
   distances <- matrix(NA, l, 2)
   for (i in 1:l) {
-    distances[i, ] <- c(i, euclidDist(xl[i, 1:n], z))
+    distances[i, ] <- c(i, euclidDist(xl[i, 1:n], u))
   }
   
   # сортируем по расстоянию
@@ -46,10 +46,10 @@ loo <- function(xl, k) {
   quality <- array(0, k)
   
   for(i in 1:l) {
-    z <- c(xl[i, 1], xl[i, 2])
+    u <- c(xl[i, 1], xl[i, 2])
     
     # берем все элементы из обучающей выборки кроме 1
-    x <- sortObjectsByDist(xl[, 1:3][-i, ], z) 
+    x <- sortObjectsByDist(xl[, 1:3][-i, ], u) 
     
     # проверяем KNN алгоритм на контрольном объекте из выборки, который не входит в x
     # правильно ли он классифицируется по своим k ближайшим соседям
