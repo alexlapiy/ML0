@@ -17,8 +17,8 @@ sortObjectsByDist <- function(xl, u) {
 }
 
 # Прямоугольное ядро
-rect_kernel <- function(r, h) {
-  if(abs(r / h) <= 1) {
+rect_kernel <- function(dist, h) {
+  if(abs(dist / h) <= 1) {
     return (1 / 2)
   } else {
     return(0)
