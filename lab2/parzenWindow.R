@@ -69,7 +69,12 @@ parzenWindow <- function(xl, u, h, kernelFunc) {
     counts[classes[i]] <- counts[classes[i]] + kernelFunc(orderedXl[i, 4], h)
   }
   
-  class <- names(which.max(counts))
+  if(sum(counts) > 0) {
+    class <- names(which.max(counts))
+  } else {
+    class <- "noClass"
+  } 
+  
   return(class)
 }
 
@@ -99,7 +104,7 @@ loo <- function(xl, seqH, kernelFunc) {
 parzenPlot <- function(xl, u, h, kernelFunc) {
   colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
   
-  plot(iris[, 3:4], pch = 20, bg = colors[iris$Species], col = colors[iris$Species], asp = 1)
+  plot(xl[1:2], pch = 20, bg = colors[xl$Species], col = colors[xl$Species])
   
   class <- parzenWindow(xl, u, h, kernelFunc)
   points(u[1], u[2], pch = 25, bg = colors[class], asp = 1)
@@ -115,7 +120,8 @@ looPlot <- function(seqH, looData) {
 }
 
 classificationMap <- function(xl, h, kernelFunc) {
-  colors <- c("setosa" = "red", "versicolor" = "green", "virginica" = "blue")
+  colors <- c("setosa" = "red", "versicolor" = "green", "virginica" = "blue", 
+              "noClass" = "white")
   plot(xl[1:2], pch = 21, col = colors[xl$Species], bg = colors[xl$Species])
   
   for (i in seq(1.0, 7.0, 0.1)) {
@@ -131,7 +137,7 @@ classificationMap <- function(xl, h, kernelFunc) {
 xl <- iris[, 3:5]
 #u <- c(5, 2)
 #h <- 0.5
-seqH <- seq(0.5, 5, 0.1)
+seqH <- seq(0.1, 2, 0.1)
 
 #parzenPlot(xl, u, h, rect_kernel)
 
@@ -139,13 +145,13 @@ seqH <- seq(0.5, 5, 0.1)
 #looEpanechKernel <- loo(xl, seqH, epanech_kernel)
 #looQuarticKernel <- loo(xl, seqH, quartic_kernel)
 #looTriangKernel <- loo(xl, seqH, triang_kernel)
-#looGaussKernel <- loo(xl, seqH, gauss_kernel)
+looGaussKernel <- loo(xl, seqH, gauss_kernel)
 
 # График LOO
-#looPlot(seqH, looGaussKernel)
+looPlot(seqH, looGaussKernel)
 
 #Карта классификации
-classificationMap(xl, 0.1, gauss_kernel)
+#classificationMap(xl, 0.6, rect_kernel)
 
 
 
