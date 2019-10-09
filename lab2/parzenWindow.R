@@ -142,11 +142,11 @@ seqH <- seq(0.5, 5, 0.1)
 #looRectKernel <- loo(xl, seqH, rect_kernel)
 #looEpanechKernel <- loo(xl, seqH, epanech_kernel)
 #looQuarticKernel <- loo(xl, seqH, quartic_kernel)
-looTriangKernel <- loo(xl, seqH, triang_kernel)
-#looGaussKernel <- loo(xl, seqH, gauss_kernel)
+#looTriangKernel <- loo(xl, seqH, triang_kernel)
+looGaussKernel <- loo(xl, seqH, gauss_kernel)
 
 # График LOO
-looPlot(seqH, looTriangKernel)
+looPlot(seqH, looGaussKernel)
 
 #Карта классификации
 #classificationMap(xl, 0.5, epanech_kernel)
