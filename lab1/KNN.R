@@ -22,6 +22,7 @@ KNN <- function(xl, k) {
   classes <- xl[1:k, n]
   # Составляем таблицу встречаемости каждого класса
   counts <- table(classes)
+
   # Находим класс, который доминирует среди первых k соседей
   class <- names(which.max(counts))
   return (class)
@@ -96,13 +97,24 @@ classiFicationMap <- function(xl) {
   }
 } 
 
+# Приведение примера о преимуществе kwNN над kNN
+dominatingExample <- function(xl, u) {
+  colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
+
+  sampleData <- rbind(xl[2:3, 1:3], xl[51:58, 1:3])
+
+  plot(sampleData[1:2], pch = 21, bg = colors[sampleData$Species], col = colors[sampleData$Species])
+  
+  class <- KNN(sortObjectsByDist(sampleData, u), 6)
+  points(u[1], u[2], pch = 25, bg = colors[class], asp = 1)
+}
 
 xl <- iris[, 3:5]
 
 #k <- loo(xl, dim(xl)[1])
-#u <- c(3.5, 1)
+u <- c(1.5, 0.6)
 #knnPlot(k, u)
 
 #classiFicationMap(xl)
 
-
+dominatingExample(xl, u)

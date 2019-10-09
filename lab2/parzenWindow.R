@@ -54,11 +54,7 @@ triang_kernel <- function(dist, h) {
 
 # Гауссовское ядро
 gauss_kernel <- function(dist, h) {
-  if(abs(dist / h) <= 1) {
-    return((2 * pi)^((-1 / 2) * exp(-1 / 2 * (dist / h)^2)))
-  } else {
-    return(0)
-  }
+  (2*pi)^(1/2) * exp((-1/2) * (dist / h)^2)
 }
 
 parzenWindow <- function(xl, u, h, kernelFunc) {
@@ -143,13 +139,13 @@ seqH <- seq(0.5, 5, 0.1)
 #looEpanechKernel <- loo(xl, seqH, epanech_kernel)
 #looQuarticKernel <- loo(xl, seqH, quartic_kernel)
 #looTriangKernel <- loo(xl, seqH, triang_kernel)
-looGaussKernel <- loo(xl, seqH, gauss_kernel)
+#looGaussKernel <- loo(xl, seqH, gauss_kernel)
 
 # График LOO
-looPlot(seqH, looGaussKernel)
+#looPlot(seqH, looGaussKernel)
 
 #Карта классификации
-#classificationMap(xl, 0.5, epanech_kernel)
+classificationMap(xl, 0.1, gauss_kernel)
 
 
 
