@@ -55,12 +55,12 @@ q - знаменатель прогрессии, некоторое число (
       <th>Точность</th>
     </tr>
     <tr>
-      <td><a href="#KNN">KNN</a></td>
+      <td>KNN</td>
       <td>k=6</td>
       <td>0.0333</td>
     </tr>
     <tr>
-      <td><a href="#KWNN">KWNN</a></td>
+      <td>KWNN</td>
       <td>k=6, q=0.6</td>
       <td>0.04</td>
     </tr>
