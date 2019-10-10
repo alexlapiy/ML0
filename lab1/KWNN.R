@@ -23,18 +23,17 @@ KWNN <- function(xl, u, k, q) {
   classes <- orderedXl[1:k, n]
   counts <- table(orderedXl[0, 3])
   
- # View(classes)
-  
   for(i in 1:k) {
     w <- q^i
     counts[classes[i]] <- counts[classes[i]] + w
   }
   
-  #View(counts)
-  
   class <- names(which.max(counts))
+  
   return(class)
 }
+
+
 
 kwnnPlot <- function(xl, u, k, q) {
   colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
@@ -43,6 +42,42 @@ kwnnPlot <- function(xl, u, k, q) {
   
   class <- KWNN(xl, u, k, q)
   points(u[1], u[2], pch = 25, bg = colors[class], asp = 1)
+}
+
+# loocv
+loo <- function(xl, k=6, seqQ) {
+  l <- dim(xl)[1]
+  qLooArray <- array(0, length(seqQ))
+  j <- 1
+  
+  for(q in seqQ) {
+    cnt <- 0
+    for(i in 1:l) {
+      u <- c(xl[i, 1], xl[i, 2])
+      x <- xl[-i, 1:3]
+      class <- KWNN(x, u, k, q)
+      
+      if(xl[i, 3] != class) {
+        cnt <- cnt + 1
+      }
+    }
+    
+    qLooArray[j] <- cnt / l
+    print(j)
+    j <- j + 1
+  }
+  
+  return(qLooArray)
+}
+
+# график для loocv
+looPlot <- function(seqQ, looData) {
+  plot(seqQ, looData, xlab = "q", ylab = "LOO(q)", type = "l")
+  
+  looDataFrame <- data.frame(seqQ, looData)
+  minQ <- looDataFrame[which.min(looDataFrame$looData),]
+  print(minQ)
+  points(minQ, pch=21, bg="red")
 }
 
 classiFicationMap <- function(xl) {
@@ -66,16 +101,19 @@ dominatingExample <- function(xl, u) {
   
   plot(sampleData[1:2], pch = 21, bg = colors[sampleData$Species], col = colors[sampleData$Species])
   
-  class <- KWNN(sampleData, u, 6, 0.5)
+  class <- KWNN(sampleData, u, 6, 0.6)
   points(u[1], u[2], pch = 25, bg = colors[class], asp = 1)
 }
 
 xl <- iris[, 3:5]
 u <- c(1.5, 0.6)
 k <- 6
-q <- 0.5
+q <- 0.6
 
 #kwnnPlot(xl, u, k, q)
 
 #classiFicationMap(xl)
-dominatingExample(xl, u)
+#dominatingExample(xl, u)
+q <- seq(0.05, 0.95, 0.05)
+looData <- loo(xl, 6, q)
+looPlot(q, looData)
