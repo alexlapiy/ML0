@@ -45,6 +45,30 @@ q - знаменатель прогрессии, некоторое число (
 
 ![](https://github.com/alexlapiy/ML0/blob/master/screens/lab1/classificatinMapKwnn.png "classificationMapKwnn")
 
+**Сравнение точности методов**
+<center>
+<table>
+  <tbody>
+    <tr>
+      <th>Метод</th>
+      <th>Параметры</th>
+      <th>Точность</th>
+    </tr>
+    <tr>
+      <td><a href="#KNN">KNN</a></td>
+      <td>k=6</td>
+      <td>0.0333</td>
+    </tr>
+    <tr>
+      <td><a href="#KWNN">KWNN</a></td>
+      <td>k=6, q=0.6</td>
+      <td>0.04</td>
+    </tr>
+  </tbody>
+   </table>
+</center>
+
+
 ## Пример преимущества kwNN над kNN
 На графике видно, что при K > 4, kNN алгоритм дает не верный ответ, поскольку объектов другого класса больше, чем объектов класса рядом с искомым значением. Алгоритм kwNN в данном случае справляется лучше, поскольку, например при оптимальном q = 0.6, первый объект из первого класса будет иметь вес 0.6, второй объект из первого класса - 0.36, в сумме - 0.96, что больше 0.47 для другого класса.
 <img src="https://github.com/alexlapiy/ML0/blob/master/screens/lab1/knn_vs_kwnn.jpg" width="1000" height="400">
