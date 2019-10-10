@@ -152,6 +152,7 @@ looPlot(seqH, looGaussKernel)
 
 #Карта классификации
 #classificationMap(xl, 0.6, rect_kernel)
+<<<<<<< HEAD
 
 
 
@@ -163,4 +164,6 @@ looPlot(seqH, looGaussKernel)
 
 
 
+=======
+>>>>>>> ec24dcd98e6fe315a60c1c0c03035a7f788922fe
 
