@@ -65,8 +65,7 @@ potentialFunc <- function(xl, u, gammaVar, h, kernelFunc) {
   counts <- table(dataXl[0, 3])
   
   for (i in 1:l) {
-    w <- gammaVar[i] * kernelFunc(dataXl[i, 4], h)
-    counts[classes[i]] <- counts[classes[i]] + w
+    counts[classes[i]] <- counts[classes[i]] + (gammaVar[i] * kernelFunc(dataXl[i, 4], h))
   }
   
   if(sum(counts) > 0) {
@@ -85,6 +84,7 @@ getError <- function(xl, gammaVar, h, kernelFunc) {
   for (i in 1:l) {
     u <- xl[i, 1:n-1]
     class <- potentialFunc(xl, u, gammaVar, h, kernelFunc)
+    print(class)
     if (class != xl[i, n]) {
       error <- error + 1
     }
@@ -110,34 +110,26 @@ getGamma <- function(xl, h, kernelFunc, eps) {
   return(gammaVar)
 }
 
-potentialFuncPlot <- function(xl, g, h) {
+potentialFuncPlot <- function(xl, gammaVar, h) {
   colors <- c("setosa" = "red", "versicolor" = "green", "virginica" = "blue")
-  plot(xl[1:2], pch = 21, col = colors[xl$Species], bg = colors[xl$Species], main="Карта классификации")
+  plot(xl[1:2], pch = 21, col = colors[xl$Species], bg = colors[xl$Species])
   
-  # draw potential circles
-  coef <- 0.2
-  m <- max(g)
-  for (i in seq(length(g))) {
-    e <- xl[i,]
-    if (g[i] < 1) {
-      next
+  m <- max(gammaVar)
+  for (i in seq(length(gammaVar))) {
+    coords <- xl[i,]
+    if (gammaVar[i] > 0) {
+      c <- adjustcolor(colors[coords$Species], gammaVar[i] / m * 0.3)
+      draw.circle(coords[, 1], coords[, 2], h, col = c, border = "black")
     }
-    c <- adjustcolor(colors[e$Species], g[i] / m * coef)
-    draw.circle(e[,1], e[,2], h[i], col = c, border = c)
   }
   
-  
-  #points(dat[1:2], pch = 21, col = colors[dat$Species], bg = colors[dat$Species], main=title)
-  points(xl[1:2], pch = 21, col = "black", bg = colors[xl$Species], main=title)
+  points(xl[1:2], pch = 21, col = colors[xl$Species], bg = colors[xl$Species])
 }
 
-xl <- iris[, 3:5]
+xl <- iris
+#xl <- rbind(iris[6:30,], iris[61:85,], iris[126:150,])
 l <- dim(xl)[1]
-#h <- c(rep(1, ld/3), rep(0.25, (ld-ld/3)))
-h <- 1
-
-g <- getGamma(xl, h, rect_kernel, 8)
+h <- 0.6
+g <- getGamma(xl[3:5], h, gauss_kernel, 5)
 View(g)
-potentialFuncPlot(xl, g, h)
-
-
+potentialFuncPlot(xl[3:5], g, h)
