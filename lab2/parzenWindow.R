@@ -52,9 +52,9 @@ triang_kernel <- function(dist, h) {
   }
 }
 
-# Гауссовское ядро
+# Гауссовское ядро (финитные ядра)
 gauss_kernel <- function(dist, h) {
-  (2*pi)^(1/2) * exp((-1/2) * (dist / h)^2)
+  return((2*pi)^(1/2) * exp((-1/2) * (dist / h)^2))
 }
 
 parzenWindow <- function(xl, u, h, kernelFunc) {
@@ -64,10 +64,13 @@ parzenWindow <- function(xl, u, h, kernelFunc) {
   classes <- orderedXl[1:l, n]
   
   counts <- table(orderedXl[0, 3])
+  View(counts[classes[1]])
   
   for (i in seq(1:l)) {
     counts[classes[i]] <- counts[classes[i]] + kernelFunc(orderedXl[i, 4], h)
+    print(counts)
   }
+
   
   if(sum(counts) > 0) {
     class <- names(which.max(counts))
@@ -135,35 +138,21 @@ classificationMap <- function(xl, h, kernelFunc) {
 
 #xl <-iris[sample(1:150, 30, replace=FALSE), 3:5]
 xl <- iris[, 3:5]
-#u <- c(5, 2)
-#h <- 0.5
+u <- c(5, 2)
+h <- 0.6
 seqH <- seq(0.1, 2, 0.1)
 
-#parzenPlot(xl, u, h, rect_kernel)
+parzenPlot(xl, u, h, rect_kernel)
 
 #looRectKernel <- loo(xl, seqH, rect_kernel)
 #looEpanechKernel <- loo(xl, seqH, epanech_kernel)
 #looQuarticKernel <- loo(xl, seqH, quartic_kernel)
 #looTriangKernel <- loo(xl, seqH, triang_kernel)
-looGaussKernel <- loo(xl, seqH, gauss_kernel)
+#looGaussKernel <- loo(xl, seqH, gauss_kernel)
 
 # График LOO
-looPlot(seqH, looGaussKernel)
+#looPlot(seqH, looGaussKernel)
 
 #Карта классификации
 #classificationMap(xl, 0.6, rect_kernel)
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> ec24dcd98e6fe315a60c1c0c03035a7f788922fe
 

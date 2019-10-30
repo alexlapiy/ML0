@@ -110,10 +110,10 @@ u <- c(1.5, 0.6)
 k <- 6
 q <- 0.6
 
-#kwnnPlot(xl, u, k, q)
+kwnnPlot(xl, u, k, q)
 
 #classiFicationMap(xl)
 #dominatingExample(xl, u)
-q <- seq(0.05, 0.95, 0.05)
-looData <- loo(xl, 6, q)
-looPlot(q, looData)
+#q <- seq(0.05, 0.95, 0.05)
+#looData <- loo(xl, 6, q)
+#looPlot(q, looData)

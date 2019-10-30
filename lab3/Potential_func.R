@@ -84,12 +84,11 @@ getError <- function(xl, gammaVar, h, kernelFunc) {
   for (i in 1:l) {
     u <- xl[i, 1:n-1]
     class <- potentialFunc(xl, u, gammaVar, h, kernelFunc)
-    print(class)
     if (class != xl[i, n]) {
       error <- error + 1
     }
   }
-  cat("err: ", error, "\n")
+  cat("error: ", error, "\n")
   return(error)
 }
 
@@ -116,7 +115,7 @@ potentialFuncPlot <- function(xl, gammaVar, h) {
   
   m <- max(gammaVar)
   for (i in seq(length(gammaVar))) {
-    coords <- xl[i,]
+    coords <- xl[i, ]
     if (gammaVar[i] > 0) {
       c <- adjustcolor(colors[coords$Species], gammaVar[i] / m * 0.3)
       draw.circle(coords[, 1], coords[, 2], h, col = c, border = "black")
@@ -126,10 +125,24 @@ potentialFuncPlot <- function(xl, gammaVar, h) {
   points(xl[1:2], pch = 21, col = colors[xl$Species], bg = colors[xl$Species])
 }
 
+potentialFuncClassificationMap <- function(xl, gammaVar, h, kernelFunc) {
+  colors <- c("setosa" = "red", "versicolor" = "green", "virginica" = "blue", 
+              "noClass" = "white")
+  plot(xl[1:2], pch = 21, col = colors[xl$Species], bg = colors[xl$Species])
+  
+  for (i in seq(1.0, 7.0, 0.1)) {
+    for (j in seq(0.1, 2.5, 0.1)) {
+      u <- c(i, j)
+      class <- potentialFunc(xl, u, gammaVar, h, kernelFunc)
+      points(i, j, pch = 21, col = colors[class])
+    }
+  }
+}
+
 xl <- iris
 #xl <- rbind(iris[6:30,], iris[61:85,], iris[126:150,])
 l <- dim(xl)[1]
 h <- 0.6
-g <- getGamma(xl[3:5], h, gauss_kernel, 5)
-View(g)
-potentialFuncPlot(xl[3:5], g, h)
+gammaVar <- getGamma(xl[3:5], h, gauss_kernel, 5)
+#potentialFuncPlot(xl[3:5], gammaVar, h)
+potentialFuncClassificationMap(xl[3:5], gammaVar, h, rect_kernel)
