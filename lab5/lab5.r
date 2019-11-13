@@ -4,24 +4,25 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       sliderInput("x",
-                  "Задайте знанчения x:",
+                  "Значение x:",
                   min = 0,
                   max = 5,
                   value = 1,
                   step = 1),
-      sliderInput("mu",
-                  "Задайте значения μ:",
-                  min = 0,
-                  max = 5,
-                  value = 0,
-                  step = 1),
       sliderInput("y",
-                  "Задайте значения y:",
+                  "Значение y:",
                   min = 0,
                   max = 5,
                   value = 1,
                   step = 1         
-      )
+      ),
+      sliderInput("mu",
+                  "Значение μ:",
+                  min = 0,
+                  max = 5,
+                  value = 0,
+                  step = 1),
+      
     ),
     mainPanel(
       HTML("<center><h1><b>График линий уровня нормального распределения</b></h1>"),
@@ -55,7 +56,6 @@ server <- function(input, output) {
       zfunc <- function(x, y) {
         sapply(1:length(x), function(i) normDistr(x[i], y[i], mu, sigma))
       }
-      
       
       radius <- 3
       minX <- -sigma[1, 1] - radius
