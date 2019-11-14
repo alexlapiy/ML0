@@ -3,14 +3,14 @@ library(shiny)
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      sliderInput("x",
-                  "Значение x:",
+      sliderInput("x1",
+                  "Значение x1:",
                   min = 0,
                   max = 5,
                   value = 1,
                   step = 1),
-      sliderInput("y",
-                  "Значение y:",
+      sliderInput("x2",
+                  "Значение x2:",
                   min = 0,
                   max = 5,
                   value = 1,
@@ -35,26 +35,26 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   output$plot <- renderPlot({
-    x <- input$x
-    y <- input$y
+    x1 <- input$x1
+    x2 <- input$x2
     mu <- input$mu
-    sigma = matrix(c(x, mu, mu, y), 2, 2)
-    
+    sigma <- matrix(c(x1, 0, 0, x2), 2, 2)
+    View(sigma)
     if (det(sigma) <= 0) {
       output$error <- renderText({"Определитель меньше или равен 0"})
     } else {
       output$error <- renderText({""})
       
-      normDistr = function(x, y, mu, sigma) {
-        x = matrix(c(x, y), 1, 2)
-        n = 2
-        k = 1 / sqrt((2 * pi) ^ n * det(sigma))
-        e = exp(-0.5 * (x - mu) %*% solve(sigma) %*% t(x - mu))
+      normDistr = function(x1, x2, mu, sigma) {
+        x <- matrix(c(x1, x2), 1, 2)
+        n <- 2
+        k <- 1 / sqrt((2 * pi) ^ n * det(sigma))
+        e <- exp(-0.5 * (x - mu) %*% solve(sigma) %*% t(x - mu))
         k * e
       }
       
-      zfunc <- function(x, y) {
-        sapply(1:length(x), function(i) normDistr(x[i], y[i], mu, sigma))
+      zfunc <- function(x1, x2) {
+        sapply(1:length(x1), function(i) normDistr(x1[i], x2[i], mu, sigma))
       }
       
       radius <- 3
@@ -63,11 +63,11 @@ server <- function(input, output) {
       minY <- -sigma[2, 2] - radius
       maxY <- sigma[2, 2] + radius
       
-      x = seq(minX, maxX, len=150)
-      y = seq(minY, maxY, len=150)
-      z = outer(x, y, zfunc)
+      x1 <- seq(minX, maxX, len=150)
+      x2 <- seq(minY, maxY, len=150)
+      z <- outer(x1, x2, zfunc)
       
-      contour(x, y, z, asp = 1)
+      contour(x1, x2, z, asp = 1)
     }
   })
 }
