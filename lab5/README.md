@@ -6,6 +6,12 @@
 ![](https://github.com/alexlapiy/ML0/blob/master/screens/lab5/n_dimen_normilized_gauss.png)
 Параметр μ является мат.ожиданием, а Σ — матрицей ковариации нормального распределения. Матрица Σ является симметричной 
 и положительно определенной. <br/>
+
+Линии уровня плотности нормального распределения соответствуют линиям уровня квадратичной формы <a href="https://www.codecogs.com/eqnedit.php?latex=(x&space;-&space;\mu)^T&space;\Sigma^{-1}&space;(x&space;-&space;\mu)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?(x&space;-&space;\mu)^T&space;\Sigma^{-1}&space;(x&space;-&space;\mu)" title="(x - \mu)^T \Sigma^{-1} (x - \mu)" /></a> и представляют собой эллипсы. <br/>
+
+Матрица квадратичной формы <a href="https://www.codecogs.com/eqnedit.php?latex=(x&space;-&space;\mu)^T&space;\Sigma^{-1}&space;(x&space;-&space;\mu)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?(x&space;-&space;\mu)^T&space;\Sigma^{-1}&space;(x&space;-&space;\mu)" title="(x - \mu)^T \Sigma^{-1} (x - \mu)" /></a> 
+является симметричной и если является положительно определенной, то ковариционная матрица соответствует эллипсам общего вида.
+
 Всего возможно 3 случая :  
 1) Если признаки некоррелируемы, то коварициаонаая матрица является диагональной и ее линии уровня
 имеют форму эллипсоидов с центром в μ, оси которых паралелльны системе координат.
