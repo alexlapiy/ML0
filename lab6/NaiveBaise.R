@@ -74,7 +74,7 @@ server <- function(input, output) {
     l <- dim(xl)[1]
     error <- 0.0
     for(i in 1:l){
-      error <- error + 100 * (xl[, y][i] != classes[a(c(xl[, 1][i], xl[, 2][i]), classes, Py, mu, sigma)]) / l
+      error <- error + 100 * (xl[, y][i] != classes[naiveBayes(c(xl[, 1][i], xl[, 2][i]), classes, Py, mu, sigma)]) / l
     }
     
     colors = c("red", "green", "blue")
