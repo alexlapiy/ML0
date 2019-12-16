@@ -28,9 +28,9 @@ server <- function(input, output) {
     feature1 <- as.numeric(input$feature1)
     feature2 <- as.numeric(input$feature2)
     
-    N <- c(feature1, feature2) #вектор признаков
-    xl <- iris[, append(N, 5)] #добавляем ответы в обучающую выборку
-    n <- length(N) #число признаков
+    featureVector <- c(feature1, feature2) #вектор признаков
+    xl <- iris[, append(featureVector, 5)] #добавляем ответы в обучающую выборку
+    n <- length(featureVector) #число признаков
     
     y <- dim(xl)[2]
     classes <- levels(xl[, y])
@@ -39,10 +39,10 @@ server <- function(input, output) {
     
     #матрица мат. ожидания
     mu <- matrix(0, nrow = numberOfClasses, ncol = n)
-    
+  
     #матрица среднеквадратичных отклонений
     sigma <- matrix(0, nrow = numberOfClasses, ncol = n)
-    
+
     for(i in 1:numberOfClasses) {
       for(j in 1:n) {
         temp <- xl[xl[, y] == classes[i], ][, j] #j-й столбец содержащий только признаки i-го класса
@@ -50,7 +50,7 @@ server <- function(input, output) {
         sigma[i, j] <- sqrt(var(temp))
       }
     }
-    
+
     #Нормальнвя плотность распределения
     noramalDensity <- function(x, mu, sigma) {
       1 / sqrt(2 * pi) / sigma * exp(-1/2 * (x - mu)^2 / sigma^2)
@@ -58,10 +58,10 @@ server <- function(input, output) {
     
     #Наивный Байесовский классификатор
     naiveBayes <- function(x, classes, Py, mu, sigma) {
-      N <- length(classes) #количество классов
+      numberOfClasses <- length(classes) #количество классов
       n <- dim(mu)[2] #количество признаков
-      scores <- rep(0, N) #вектор плотностей
-      for (i in 1:N) {
+      scores <- rep(0, numberOfClasses) #вектор плотностей
+      for (i in 1:numberOfClasses) {
         scores[i] <- Py[i]
         for (j in 1:n) { #произведение вероятности класса на плотности признаков
           scores[i] <- scores[i] * noramalDensity(x[j], mu[i,j], sigma[i,j])
