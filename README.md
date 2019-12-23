@@ -24,3 +24,6 @@
 
 [**Наивный Байесовский классификатор**](https://github.com/alexlapiy/ML0/tree/master/lab6)
 | [**Shiny**](https://alexlapiy.shinyapps.io/lab6/)
+
+[**Наивный Байесовский классификатор**](https://github.com/alexlapiy/ML0/tree/master/lab7)
+| [**Shiny**](https://alexlapiy.shinyapps.io/lab7/)
